@@ -1,0 +1,35 @@
+---
+- name: Scale Up/Down Replicas in Minikube
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Check the current time
+      command: date '+%H:%M'
+      register: current_time
+      changed_when: false
+
+    - name: Scale up replicas at 08:00
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: server-deploy
+            namespace: default
+          spec:
+            replicas: 5  # Adjust the desired number of replicas for scaling up
+      when: current_time.stdout == "08:00"
+
+    - name: Scale down replicas at 13:00
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: server-deploy
+            namespace: default
+          spec:
+            replicas: 3  # Adjust the desired number of replicas for scaling down
+      when: current_time.stdout >= "13:00"

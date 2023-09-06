@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  jenkins-service:
+    build:
+      context: ./jenkins # Path to the directory containing your Dockerfile
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    networks:
+      - mynetwork
+
+  python-service:
+    build:
+      context: ./ping-pong-app
+      dockerfile: Dockerfile
+    ports:
+      - "5200:5200"  # Map host port 5200 to container port 5200
+
+  database-service:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 1234!
+    ports:
+      - "27017:27017"  # Map host port 27017 to container port 27017
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  mynetwork:
+
+volumes:
+  mongo-data:
+  jenkins_home:

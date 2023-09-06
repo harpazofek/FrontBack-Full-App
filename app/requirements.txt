@@ -1,0 +1,6 @@
+flask
+pymongo
+requests
+uuid
+jsonschema
+pip==23.2.1

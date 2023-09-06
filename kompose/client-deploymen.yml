@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong-deployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: pipo
+  template:
+    metadata:
+      labels:
+        app: pipo
+    spec:
+      containers:
+      - name: pipo-container
+        image: pingpong:v2
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5200
+
+
+
+        

@@ -1,0 +1,15 @@
+2023-08-26 16:23:17,859 - INFO - MongoClient(host=['database-service:27017'], document_class=dict, tz_aware=False, connect=True)
+2023-08-26 16:23:17,863 - WARNING -  * Debugger is active!
+2023-08-26 16:23:17,865 - INFO -  * Debugger PIN: 143-233-772
+2023-08-26 16:25:06,737 - INFO - MongoClient(host=['database-service:27017'], document_class=dict, tz_aware=False, connect=True)
+2023-08-26 16:25:06,744 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5200
+ * Running on http://192.168.197.128:5200
+2023-08-26 16:25:06,744 - INFO - [33mPress CTRL+C to quit[0m
+2023-08-26 16:25:06,745 - INFO -  * Restarting with stat
+2023-08-26 16:25:07,053 - INFO - MongoClient(host=['database-service:27017'], document_class=dict, tz_aware=False, connect=True)
+2023-08-26 16:25:07,059 - WARNING -  * Debugger is active!
+2023-08-26 16:25:07,060 - INFO -  * Debugger PIN: 143-233-772
+2023-08-26 16:25:22,683 - INFO - 192.168.197.128 - - [26/Aug/2023 16:25:22] "[33mGET / HTTP/1.1[0m" 404 -
+2023-08-26 16:25:22,745 - INFO - 192.168.197.128 - - [26/Aug/2023 16:25:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

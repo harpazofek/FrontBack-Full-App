@@ -1,0 +1,50 @@
+node (){
+    def version = null; 
+    def tag = null;
+    def gitCommit = null;
+    def hostfix = null;
+    def release = null;
+    def minikubeStatus = 'floppp';
+    def deployStatus = 'big bose is falupen';
+    
+    stage ('Checkout') {
+      checkout scm
+      sh 'env'
+      gitCommit = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+      release = env.BRANCH_NAME ;
+      version = "${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+      tag = "${release}.${env.BUILD_NUMBER}";
+      latest = "${env.BRANCH_NAME}-latest";
+
+    }    
+    stage ('Build') { 
+        sh "docker build -t eli41/ping-pong:latest ./app"  
+    }
+
+    stage('Push image') {
+        withDockerRegistry([ credentialsId: "docker_hub_cred", url: "" ]) {
+        sh "docker push eli41/ping-pong:latest"
+        }     
+    }
+
+    stage('Deploy to Minikube') {
+      withKubeConfig([credentialsId: 'jenkins-kub2',
+                    // caCertificate: '<ca-certificate>',                    
+                    serverUrl: ' https://192.168.49.2:8443',
+                    //contextName: '<context-name>',
+                    clusterName: 'minikube',
+                    namespace: 'default'
+                    ]) { 
+              minikubeStatus = sh(returnStdout: true, script: 'kubectl get node -n minikube -o name').trim() 
+             if (minikubeStatus == "node/minikube") {
+               echo "* Minikube is Running.  minikub node is = $minikubeStatus *"
+               echo "\n **** Deploying ping-pong ******"  
+               sh 'kubectl apply -f ./K8S/*.yml'
+               sh 'sleep 20'
+              } 
+              else {
+                echo "minikube is not running , minikubeStatus = $minikubeStatus"
+              }       
+      }
+    }
+}

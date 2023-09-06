@@ -1,0 +1,9 @@
+---
+- name: Test Host Reachability
+  hosts: localhost
+  tasks:
+    - name: Ping hosts
+      ping:
+    - name: Print successful ping message
+      debug:
+        msg: "Host {{ inventory_hostname }} is reachable."
