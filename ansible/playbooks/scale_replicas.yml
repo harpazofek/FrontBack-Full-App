@@ -1,7 +1,7 @@
 ---
 - name: Scale Up/Down Replicas in Minikube
   hosts: all
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Check the current time
       command: date '+%H:%M'
@@ -19,7 +19,7 @@
             namespace: default
           spec:
             replicas: 5  # Adjust the desired number of replicas for scaling up
-      when: current_time.stdout == "08:00"
+      when: current_time.stdout >= "08:00"
 
     - name: Scale down replicas at 13:00
       k8s:
@@ -32,4 +32,4 @@
             namespace: default
           spec:
             replicas: 3  # Adjust the desired number of replicas for scaling down
-      when: current_time.stdout >= "13:00"
+      when: current_time.stdout <= "13:00"

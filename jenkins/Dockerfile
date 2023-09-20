@@ -4,7 +4,7 @@ ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 USER root
 RUN apt-get update && apt-get install -y python3 python3-pip docker.io
 RUN usermod -aG docker jenkins
-USER jenkins
+# USER jenkins
 
 COPY plugins.txt .
 RUN jenkins-plugin-cli -f /plugins.txt

@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jenkins
-  namespace: devops-tools
+  name: jenkins-deploy
+  # namespace: default
 spec:
   replicas: 1
   selector:
@@ -17,12 +17,16 @@ spec:
             fsGroup: 1000 
             runAsUser: 1000
       serviceAccountName: jenkins-admin
+      volumes:
+        - name: jenkins-data
+          persistentVolumeClaim:
+            claimName: jenkins-pvc
       containers:
-        - name: jenkins
+        - name: jenkins-server
           image: jenkins/jenkins:lts
           resources:
             limits:
-              memory: "2Gi"
+              memory: "5Gi"
               cpu: "1000m"
             requests:
               memory: "500Mi"
@@ -44,14 +48,25 @@ spec:
             httpGet:
               path: "/login"
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 80
             periodSeconds: 10
             timeoutSeconds: 5
-            failureThreshold: 3
+            failureThreshold: 5
           volumeMounts:
             - name: jenkins-data
-              mountPath: /var/jenkins_home         
-      volumes:
-        - name: jenkins-data
-          persistentVolumeClaim:
-              claimName: jenkins-pv-claim
+              mountPath: /var/jenkins_home
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-server
+spec:
+  selector:
+    app: jenkins-server
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 32323
