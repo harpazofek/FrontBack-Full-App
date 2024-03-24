@@ -7,10 +7,6 @@ FinalProject
 
 4 - THE INSTANCE SHOULD BE A DEPLOYMENT WITH A 4 REPLICAS USING ANSIBILE BUILD A CRON JOB IN JENKINS TO ADD 2 REPLICAS AT 8:00 AND DELETE 2 REPLICAS AT 13:00
 
-DevSecOps Final Project (RED)
-
-BY : Daniel , Eli Levy , Ofek , Lior
-
 Prerequisite:
 
 Launch EC2 instance - t2.medium ,2 cpu ,volume 30GB - os linux (ubuntu server 20.04) . Install : Docker , Minikube, Jenkins , Ansible , Git . In Jenkins install the kubernetes plugin . Edit the ~/.kube/config file (explained below) . Configure the Jenkins jobs . Configure the Ansible to create the Cron jobs .
